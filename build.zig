@@ -17,8 +17,13 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    const dotenv_dep = b.dependency("dotenv", .{ .target = target, .optimize = optimize });
+    const httpx_dep = b.dependency("httpx", .{
+        .target = target,
+        .optimize = optimize,
+    });
 
+    exe.root_module.addImport("httpx", httpx_dep.module("httpx"));
+    const dotenv_dep = b.dependency("dotenv", .{ .target = target, .optimize = optimize });
     exe.root_module.addImport("dotenv", dotenv_dep.module("dotenv"));
     exe.root_module.addImport("zlap", zlap.module("zlap"));
 

@@ -15,7 +15,7 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
                 return;
             },
             else => {
-                subparser.logger.err("Error occured: {}", .{err});
+                subparser.logger.err("Error occured: {any}", .{err});
                 return;
             },
         }
@@ -31,12 +31,12 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
         .whitespace = .indent_4,
         .emit_null_optional_fields = true,
     }, &config_writer.writer) catch |err| {
-        subparser.logger.err("Failed to write config: {}", .{err});
+        subparser.logger.err("Failed to write config: {any}", .{err});
         return;
     };
 
     const bytes = config_writer.toOwnedSlice() catch |err| {
-        subparser.logger.err("Failed to get bytes: {}", .{err});
+        subparser.logger.err("Failed to get bytes: {any}", .{err});
         return;
     };
 
@@ -44,7 +44,7 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     const writer = &file_writer.interface;
 
     _ = writer.write(bytes) catch |err| {
-        subparser.logger.err("{}", .{err});
+        subparser.logger.err("{any}", .{err});
     };
 
     subparser.logger.success("Successfully created config", .{});

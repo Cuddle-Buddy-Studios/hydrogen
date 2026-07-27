@@ -36,18 +36,21 @@ pub const Config = struct {
 
 pub fn load(process_init: std.process.Init) !void {
     init = process_init;
+    const allocator = init.arena.allocator();
 
     var env_manager = dotenv.init(init, ENV_KEYS);
     defer env_manager.deinit();
 
+    try env_manager.load(.{});
     try env_manager.loadCurrentProcessEnvs();
 
     const file_config = loadConfig() catch FileConfig.default();
     const api_key = env_manager.key(.HYDROGEN_API_KEY);
+    const duped_api_key = allocator.dupe(u8, api_key) catch "";
 
     config = Config{
         .File = file_config,
-        .ApiKey = api_key,
+        .ApiKey = duped_api_key,
     };
 }
 

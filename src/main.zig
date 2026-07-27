@@ -4,6 +4,7 @@ const config = @import("config.zig");
 
 // SubCommands
 const init_cmd = @import("commands/init.zig");
+const product_cmd = @import("commands/product.zig");
 
 // Main handler
 fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
@@ -31,6 +32,16 @@ pub fn main(init: std.process.Init) !void {
             "initialize the toml",
             init_cmd.handler,
         );
+    }
+    {
+        // asset sub command
+        const product_subcmd = try parser.subCommand(
+            "product",
+            "create products",
+            product_cmd.handler,
+        );
+        _ = product_subcmd;
+        // _ = product_subcmd.flag('w', "watch", "watch files");
     }
 
     _ = parser.setHandler(handler);
