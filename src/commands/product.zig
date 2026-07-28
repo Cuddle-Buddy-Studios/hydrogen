@@ -3,6 +3,7 @@ const zlap = @import("zlap");
 const config = @import("../config.zig");
 const products = @import("../products.zig");
 const roblox = @import("../roblox.zig");
+const codegen = @import("../codegen.zig");
 
 pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     const init = config.init;
@@ -82,6 +83,10 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
         subparser.logger.err("Failed to write products to file: {any}", .{err});
         return;
     };
+
+    if (!std.mem.eql(u8, config.config.File.ProductsOutputPath.?, "")) {
+        codegen.generateCodeFromInput(io, allocator, config.config.File.ProductsOutputPath.?, defined_products);
+    }
 
     subparser.logger.success("Successfully created {any} product(s)", .{created_count});
 }
