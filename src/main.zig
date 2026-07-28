@@ -5,6 +5,7 @@ const config = @import("config.zig");
 // SubCommands
 const init_cmd = @import("commands/init.zig");
 const product_cmd = @import("commands/product.zig");
+const generate_cmd = @import("commands/generate.zig");
 
 // Main handler
 fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
@@ -42,6 +43,14 @@ pub fn main(init: std.process.Init) !void {
         );
         _ = product_subcmd;
         // _ = product_subcmd.flag('w', "watch", "watch files");
+    }
+    {
+        // asset sub command
+        _ = try parser.subCommand(
+            "generate",
+            "generate code from current products",
+            generate_cmd.handler,
+        );
     }
 
     _ = parser.setHandler(handler);

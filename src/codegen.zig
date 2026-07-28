@@ -52,12 +52,13 @@ pub fn generateCodeFromInput(io: std.Io, allocator: std.mem.Allocator, file_path
         \\
         \\-- PRIVATE STATE
         \\const _products = {
+        \\
     );
 
-    // for (all_products) |product| {
-    //     if (product.productId == null) continue;
-    //     try writer.print("\t[\"{s}\"] = {d},\n", .{ product.name, product.productId.? });
-    // }
+    for (all_products) |product| {
+        if (product.productId == null) continue;
+        try writer.print("\t[\"{s}\"] = {d},\n", .{ product.name, product.productId.? });
+    }
 
     try writer.writeAll(
         \\}
@@ -100,8 +101,6 @@ pub fn generateCodeFromInput(io: std.Io, allocator: std.mem.Allocator, file_path
         \\
         \\return Products
     );
-
-    _ = all_products;
 
     const cwd = std.Io.Dir.cwd();
     try cwd.writeFile(io, .{ .sub_path = file_path, .data = writer_alloc.written() });
