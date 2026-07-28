@@ -1,0 +1,9 @@
+{
+    "UniverseId": 7039357329,
+    "PublisherId": 0,
+    "PublisherType": "User",
+    "ProductsInputPath": "out/products.json",
+    "ProductsOutputPath": "",
+    "AssetsInputPath": "out/assets",
+    "AssetsOutputPath": ""
+}
