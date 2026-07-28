@@ -85,7 +85,10 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     };
 
     if (!std.mem.eql(u8, config.config.File.ProductsOutputPath.?, "")) {
-        codegen.generateCodeFromInput(io, allocator, config.config.File.ProductsOutputPath.?, defined_products);
+        codegen.generateCodeFromInput(io, allocator, config.config.File.ProductsOutputPath.?, defined_products) catch |err| {
+            subparser.logger.err("Failed to generate code: {any}", .{err});
+            return;
+        };
     }
 
     subparser.logger.success("Successfully created {any} product(s)", .{created_count});
