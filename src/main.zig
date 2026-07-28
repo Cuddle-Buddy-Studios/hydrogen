@@ -15,7 +15,7 @@ pub fn main(init: std.process.Init) !void {
     const allocator = init.arena.allocator();
 
     // load vars
-    try config.load(init);
+    config.load(init) catch {};
 
     // CLI STUFF
     // Initialize logger
