@@ -41,9 +41,9 @@ pub fn createDeveloperProduct(gpa: std.mem.Allocator, universe_id: u64, product_
     const fields = [_]httpx.MultipartField{
         .{ .name = "name", .value = product_details.name },
         .{ .name = "price", .value = price_string },
-        .{ .name = "isForSale", .value = if (product_details.isForSale.?) "true" else "false" },
+        .{ .name = "isForSale", .value = if (product_details.isForSale orelse false) "true" else "false" },
         .{ .name = "description", .value = product_details.name },
-        .{ .name = "isManagedPricingEnabled", .value = if (product_details.isManagedPricingEnabled.?) "true" else "false" },
+        .{ .name = "isManagedPricingEnabled", .value = if (product_details.isManagedPricingEnabled orelse false) "true" else "false" },
     };
 
     const opts = httpx.RequestOptions.defaults()
