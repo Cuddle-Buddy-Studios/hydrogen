@@ -37,7 +37,10 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     var created_count: i64 = 0;
     for (defined_products) |product| {
         // TODO: create lockfile from the details
-        _ = roblox.createDeveloperProduct(allocator, universe_id.?, product, api_key) catch continue;
+        _ = roblox.createDeveloperProduct(allocator, universe_id.?, product, api_key) catch |err| {
+            std.log.err("Error while creating product: {any}", .{err});
+            continue;
+        };
         created_count += 1;
     }
 

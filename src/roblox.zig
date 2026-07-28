@@ -8,7 +8,7 @@ const DeveloperProductResponse = struct {
     description: []const u8,
     iconImageAssetId: u64,
     universeId: i64,
-    isForSale: []const u8,
+    isForSale: bool,
     priceInformation: struct {
         defaultPriceInRobux: i64,
     },
