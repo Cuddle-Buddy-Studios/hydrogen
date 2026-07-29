@@ -8,13 +8,13 @@ pub var init: std.process.Init = undefined;
 pub var config: Config = undefined;
 
 pub const FileConfig = struct {
-    UniverseId: ?u64,
-    PublisherId: ?u64,
-    PublisherType: ?enum { Group, User },
-    ProductsInputPath: ?[]const u8,
-    ProductsOutputPath: ?[]const u8,
-    AssetsInputPath: ?[]const u8,
-    AssetsOutputPath: ?[]const u8,
+    UniverseId: ?u64 = 0,
+    PublisherId: ?u64 = 0,
+    PublisherType: ?enum { Group, User } = .User,
+    ProductsInputPath: ?[]const u8 = "",
+    ProductsOutputPath: ?[]const u8 = "",
+    AssetsInputPath: ?[]const u8 = "",
+    AssetsOutputPath: ?[]const u8 = "",
 
     pub fn default() FileConfig {
         return .{

@@ -36,10 +36,15 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     };
     const defined_products = products_file.products;
 
-    codegen.generateCodeFromInput(io, allocator, config.config.File.ProductsOutputPath.?, defined_products) catch |err| {
-        subparser.logger.err("Failed to generate code: {any}", .{err});
+    if (!std.mem.eql(u8, config.config.File.ProductsOutputPath.?, "")) {
+        codegen.generateCodeFromInput(io, allocator, config.config.File.ProductsOutputPath.?, defined_products) catch |err| {
+            subparser.logger.err("Failed to generate code: {any}", .{err});
+            return;
+        };
+    } else {
+        subparser.logger.err("ProductsOutputPath not set in config", .{});
         return;
-    };
+    }
 
     subparser.logger.success("Successfully generated code", .{});
 }

@@ -58,13 +58,13 @@ pub fn handler(subparser: *zlap.Parser) zlap.ParseError!void {
     };
 
     var created_count: i64 = 0;
-    for (0..merged_products.items.len) |index| {
+    for (merged_products.items, 0..) |merged_product, index| {
         const product = &defined_products[index];
 
         // already uploaded
         if (product.productId != null) continue;
 
-        const data = roblox.createDeveloperProduct(allocator, universe_id.?, product.*, api_key) catch |err| {
+        const data = roblox.createDeveloperProduct(allocator, universe_id.?, merged_product, api_key) catch |err| {
             std.log.err("Error while creating product: {any}", .{err});
             continue;
         };
