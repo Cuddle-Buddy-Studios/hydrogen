@@ -6,101 +6,96 @@ pub fn generateCodeFromInput(io: std.Io, allocator: std.mem.Allocator, file_path
     defer writer_alloc.deinit();
     const writer = &writer_alloc.writer;
 
-    try writer.writeAll(
-        \\-- SERVICES
-        \\const MarketplaceService = game:GetService "MarketplaceService"
-        \\
-        \\-- TYPES
-        \\type ProductInfo = {
-        \\    AssetTypeId: number,
-        \\    UniverseId: number,
-        \\    Description: string,
-        \\    UserBasePriceInRobux: number,
-        \\    IsNew: boolean,
-        \\    Updated: string,
-        \\    AssetId: number,
-        \\    DisplayDescription: string,
-        \\    ProductId: number,
-        \\    MinimumMembershipLevel: number,
-        \\    Created: string,
-        \\    DeveloperProductId: number,
-        \\    ProductType: string,
-        \\    IsLimited: boolean,
-        \\    DisplayIconImageAssetId: number,
-        \\    TargetId: number,
-        \\    DisplayName: string,
-        \\    IsPublicDomain: boolean,
-        \\    Name: string,
-        \\    PriceInRobux: number,
-        \\    IsForSale: boolean,
-        \\    DisplayIcon: number,
-        \\    IconImageAssetId: number,
-        \\    IsLimitedUnique: boolean,
-        \\    PriceDiscountDetails: {
-        \\        -- string, -- Type
-        \\        -- number, -- AmountInRobux
-        \\        -- number, -- Percent
-        \\    },
-        \\    Creator: {
-        \\        CreatorType: Enum.CreatorType,
-        \\        CreatorTargetId: number,
-        \\        HasVerifiedBadge: boolean,
-        \\        Name: string,
-        \\        Id: number,
-        \\    },
-        \\}
-        \\
-        \\-- PRIVATE STATE
-        \\const _products = {
-        \\
-    );
+    try writer.writeAll("-- SERVICES\n");
+    try writer.writeAll("local MarketplaceService = game:GetService \"MarketplaceService\"\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("-- TYPES\n");
+    try writer.writeAll("type ProductInfo = {\n");
+    try writer.writeAll("\tAssetTypeId: number,\n");
+    try writer.writeAll("\tUniverseId: number,\n");
+    try writer.writeAll("\tDescription: string,\n");
+    try writer.writeAll("\tUserBasePriceInRobux: number,\n");
+    try writer.writeAll("\tIsNew: boolean,\n");
+    try writer.writeAll("\tUpdated: string,\n");
+    try writer.writeAll("\tAssetId: number,\n");
+    try writer.writeAll("\tDisplayDescription: string,\n");
+    try writer.writeAll("\tProductId: number,\n");
+    try writer.writeAll("\tMinimumMembershipLevel: number,\n");
+    try writer.writeAll("\tCreated: string,\n");
+    try writer.writeAll("\tDeveloperProductId: number,\n");
+    try writer.writeAll("\tProductType: string,\n");
+    try writer.writeAll("\tIsLimited: boolean,\n");
+    try writer.writeAll("\tDisplayIconImageAssetId: number,\n");
+    try writer.writeAll("\tTargetId: number,\n");
+    try writer.writeAll("\tDisplayName: string,\n");
+    try writer.writeAll("\tIsPublicDomain: boolean,\n");
+    try writer.writeAll("\tName: string,\n");
+    try writer.writeAll("\tPriceInRobux: number,\n");
+    try writer.writeAll("\tIsForSale: boolean,\n");
+    try writer.writeAll("\tDisplayIcon: number,\n");
+    try writer.writeAll("\tIconImageAssetId: number,\n");
+    try writer.writeAll("\tIsLimitedUnique: boolean,\n");
+    try writer.writeAll("\tPriceDiscountDetails: {\n");
+    try writer.writeAll("\t\t-- string, -- Type\n");
+    try writer.writeAll("\t\t-- number, -- AmountInRobux\n");
+    try writer.writeAll("\t\t-- number, -- Percent\n");
+    try writer.writeAll("\t},\n");
+    try writer.writeAll("\tCreator: {\n");
+    try writer.writeAll("\t\tCreatorType: Enum.CreatorType,\n");
+    try writer.writeAll("\t\tCreatorTargetId: number,\n");
+    try writer.writeAll("\t\tHasVerifiedBadge: boolean,\n");
+    try writer.writeAll("\t\tName: string,\n");
+    try writer.writeAll("\t\tId: number,\n");
+    try writer.writeAll("\t},\n");
+    try writer.writeAll("}\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("-- PRIVATE STATE\n");
+    try writer.writeAll("const _products = {\n");
 
     for (all_products) |product| {
         if (product.productId == null) continue;
         try writer.print("\t[\"{s}\"] = {d},\n", .{ product.name, product.productId.? });
     }
 
-    try writer.writeAll(
-        \\}
-        \\
-        \\-- PRIVATE FUNCTIONS
-        \\local function getProductInfo(id: number): ProductInfo
-        \\    return MarketplaceService:GetProductInfoAsync(id, Enum.InfoType.Product)
-        \\end
-        \\
-        \\-- PUBLIC MODULE
-        \\local Products = {}
-        \\
-        \\Products.Products = _products
-        \\
-        \\Products.GetProductInfoAsync = getProductInfo
-        \\
-        \\function Products.GetNameAsync(id: number): string
-        \\    local info = getProductInfo(id)
-        \\
-        \\    return info.Name
-        \\end
-        \\
-        \\function Products.GetDescriptionAsync(id: number): string
-        \\    local info = getProductInfo(id)
-        \\
-        \\    return info.Description
-        \\end
-        \\
-        \\function Products.GetBasePriceAsync(id: number): number
-        \\    local info = getProductInfo(id)
-        \\
-        \\    return info.UserBasePriceInRobux
-        \\end
-        \\
-        \\function Products.GetDiscountedPriceAsync(id: number)
-        \\    local info = getProductInfo(id)
-        \\
-        \\    return info.PriceInRobux
-        \\end
-        \\
-        \\return Products
-    );
+    try writer.writeAll("}\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("-- PRIVATE FUNCTIONS\n");
+    try writer.writeAll("local function getProductInfo(id: number): ProductInfo\n");
+    try writer.writeAll("\treturn MarketplaceService:GetProductInfoAsync(id, Enum.InfoType.Product)\n");
+    try writer.writeAll("end\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("-- PUBLIC MODULE\n");
+    try writer.writeAll("local Products = {}\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("Products.Products = _products\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("Products.GetProductInfoAsync = getProductInfo\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("function Products.GetNameAsync(id: number): string\n");
+    try writer.writeAll("\tlocal info = getProductInfo(id)\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("\treturn info.Name\n");
+    try writer.writeAll("end\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("function Products.GetDescriptionAsync(id: number): string\n");
+    try writer.writeAll("\tlocal info = getProductInfo(id)\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("\treturn info.Description\n");
+    try writer.writeAll("end\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("function Products.GetBasePriceAsync(id: number): number\n");
+    try writer.writeAll("\tlocal info = getProductInfo(id)\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("\treturn info.UserBasePriceInRobux\n");
+    try writer.writeAll("end\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("function Products.GetDiscountedPriceAsync(id: number)\n");
+    try writer.writeAll("\tlocal info = getProductInfo(id)\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("\treturn info.PriceInRobux\n");
+    try writer.writeAll("end\n");
+    try writer.writeAll("\n");
+    try writer.writeAll("return Products\n");
 
     const cwd = std.Io.Dir.cwd();
     try cwd.writeFile(io, .{ .sub_path = file_path, .data = writer_alloc.written() });

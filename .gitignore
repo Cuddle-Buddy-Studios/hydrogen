@@ -6,3 +6,5 @@ out/
 
 hydrogen.json
 products.json
+products.luau
+stylua.toml
